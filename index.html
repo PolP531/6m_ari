@@ -9,9 +9,246 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ===== CANÇONS — redisseny complet ===== */
+    #cancons { background: var(--bg); }
+
+    .cancons-header { text-align: center; margin-bottom: 3rem; }
+    .cancons-intro {
+      color: var(--text-muted);
+      font-style: italic;
+      font-size: 1rem;
+      margin-top: .4rem;
+    }
+
+    .songs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) { .songs-grid { grid-template-columns: 1fr; } }
+
+    .song-tile-featured { grid-column: 1 / -1; }
+
+    .song-tile {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s ease;
+    }
+    .song-tile:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 50px rgba(0,0,0,.55);
+      color: inherit;
+      text-decoration: none;
+    }
+    .song-tile:active { transform: scale(0.98); }
+
+    .song-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .song-tile[data-song="elvis"]  .song-bg { background: linear-gradient(140deg, #1a3a5c 0%, #0a1a2e 55%, #0e0e0e 100%); }
+    .song-tile[data-song="sailor"] .song-bg { background: linear-gradient(140deg, #3a2a1a 0%, #1a0f08 55%, #0e0e0e 100%); }
+    .song-tile[data-song="viva"]   .song-bg { background: linear-gradient(140deg, #1a3020 0%, #0a1a10 55%, #0e0e0e 100%); }
+    .song-tile[data-song="mac"]    .song-bg { background: linear-gradient(140deg, #2a1a3a 0%, #120a1e 55%, #0e0e0e 100%); }
+
+    .song-shape {
+      position: absolute;
+      border-radius: 50%;
+      z-index: 1;
+      opacity: .1;
+      pointer-events: none;
+    }
+    .song-tile[data-song="elvis"]  .song-shape { width:260px; height:260px; top:-60px; right:-60px; background:#5b9bd5; }
+    .song-tile[data-song="sailor"] .song-shape { width:200px; height:200px; top:-40px; right:-40px; background:#c8a96e; }
+    .song-tile[data-song="viva"]   .song-shape { width:220px; height:220px; top:-50px; right:-30px; background:#5ba86e; }
+    .song-tile[data-song="mac"]    .song-shape { width:210px; height:210px; top:-50px; right:-50px; background:#9b6ecf; }
+
+    .song-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .song-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 1.3rem .6rem;
+    }
+    .song-num-badge {
+      font-family: var(--font-mono);
+      font-size: .58rem;
+      letter-spacing: .2em;
+      color: rgba(232,228,220,.3);
+      text-transform: uppercase;
+    }
+    .song-start-badge {
+      font-family: var(--font-mono);
+      font-size: .58rem;
+      letter-spacing: .12em;
+      color: rgba(232,228,220,.3);
+    }
+
+    .song-icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: .8rem 1.3rem 1.2rem;
+    }
+    .song-tile-featured .song-icon-wrap { padding: 1.2rem 1.3rem 1.6rem; }
+
+    .song-disc {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .song-tile-featured .song-disc { width: 88px; height: 88px; }
+
+    .song-disc-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid rgba(232,228,220,.12);
+    }
+    .song-disc-ring-2 {
+      position: absolute;
+      inset: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(232,228,220,.06);
+    }
+    .song-tile[data-song="elvis"]  .song-disc { background: radial-gradient(circle at 35% 35%, #2a5080, #0d2440); }
+    .song-tile[data-song="sailor"] .song-disc { background: radial-gradient(circle at 35% 35%, #6b4a28, #2a1a08); }
+    .song-tile[data-song="viva"]   .song-disc { background: radial-gradient(circle at 35% 35%, #2a6040, #0d2418); }
+    .song-tile[data-song="mac"]    .song-disc { background: radial-gradient(circle at 35% 35%, #503080, #1e0d40); }
+
+    .song-disc-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(232,228,220,.12);
+      border: 1px solid rgba(232,228,220,.22);
+      position: relative;
+      z-index: 1;
+    }
+    .song-tile-featured .song-disc-dot { width: 14px; height: 14px; }
+
+    .song-play-circle {
+      position: absolute;
+      bottom: -8px;
+      right: -8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(200,169,110,.15);
+      border: 1px solid rgba(200,169,110,.35);
+      transition: background .25s, border-color .25s, transform .25s;
+    }
+    .song-tile-featured .song-play-circle { width: 40px; height: 40px; bottom: -10px; right: -10px; }
+    .song-tile:hover .song-play-circle {
+      background: rgba(200,169,110,.3);
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+    .song-play-circle svg { width: 12px; height: 12px; fill: var(--accent); margin-left: 2px; }
+    .song-tile-featured .song-play-circle svg { width: 15px; height: 15px; }
+
+    .song-text {
+      padding: 0 1.3rem 1.4rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: .2rem;
+    }
+    .song-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.25;
+    }
+    .song-tile-featured .song-title {
+      font-size: 1.45rem;
+      font-weight: 300;
+      font-style: italic;
+    }
+    .song-artist {
+      font-family: var(--font-mono);
+      font-size: .62rem;
+      color: var(--accent);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-top: .1rem;
+    }
+    .song-note-text {
+      font-size: .85rem;
+      color: var(--text-muted);
+      font-style: italic;
+      font-weight: 300;
+      margin-top: .4rem;
+      line-height: 1.45;
+    }
+    .song-tile-featured .song-note-text { font-size: .95rem; }
+
+    .song-accent-line {
+      height: 2px;
+      width: 0%;
+      transition: width .4s ease;
+      position: relative;
+      z-index: 2;
+    }
+    .song-tile:hover .song-accent-line { width: 100%; }
+    .song-tile[data-song="elvis"]  .song-accent-line { background: #5b9bd5; }
+    .song-tile[data-song="sailor"] .song-accent-line { background: var(--accent); }
+    .song-tile[data-song="viva"]   .song-accent-line { background: #5ba86e; }
+    .song-tile[data-song="mac"]    .song-accent-line { background: #9b6ecf; }
+
+    .song-featured-badge {
+      position: absolute;
+      top: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: .58rem;
+      letter-spacing: .18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      white-space: nowrap;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .song-featured-badge::before,
+    .song-featured-badge::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: rgba(200,169,110,.4);
+    }
+  </style>
 </head>
 <body>
- 
+
   <!-- NAV -->
   <nav id="navbar">
     <div class="nav-inner">
@@ -29,7 +266,7 @@
       </ul>
     </div>
   </nav>
- 
+
   <!-- HERO -->
   <section id="hero">
     <div class="hero-bg"></div>
@@ -45,110 +282,71 @@
       <div class="counter-item"><span id="cnt-min">—</span><small>minuts</small></div>
     </div>
   </section>
- 
+
   <!-- TU -->
   <section id="tu" class="section-block">
     <div class="container">
- 
       <div class="tu-photo-wrap">
         <div class="photo-frame">
           <img src="/fotos/7.jpeg" alt="Ariadna" />
         </div>
       </div>
- 
       <div class="tu-text-wrap">
         <p class="section-label">01 — Tu</p>
         <h2 class="section-title">Ariadna.</h2>
-        <p class="section-body">
-          Ja han passat 6 mesos. No sé per tu, però a mi se m'han passat volant. Des d'aquell primer dia que vam anar al CosmoCaixa fins a aquest sopar, segueixo igual d'enamorat de tu.
-        </p>
-        <p class="section-body">
-          Sé que és molt complicat i que som molt joves, però realment m'agradaria estar amb tu tota la vida, i vull aconseguir-ho. M'il·lumines els dies i ets la meva única motivació per seguir treballant i aconseguir els meus objectius.
-        </p>
-        <p class="section-body">
-          Estic segur que cap dels dos fa, ni farà, sempre les coses bé. Però també estic segur que sempre intentarem fer el millor per nosaltres dos i que treballarem sempre com un equip.
-        </p>
-        <p class="section-body">
-          <em>T'estimo molt Ari :)</em>
-        </p>
+        <p class="section-body">Ja han passat 6 mesos. No sé per tu, però a mi se m'han passat volant. Des d'aquell primer dia que vam anar al CosmoCaixa fins a aquest sopar, segueixo igual d'enamorat de tu.</p>
+        <p class="section-body">Sé que és molt complicat i que som molt joves, però realment m'agradaria estar amb tu tota la vida, i vull aconseguir-ho. M'il·lumines els dies i ets la meva única motivació per seguir treballant i aconseguir els meus objectius.</p>
+        <p class="section-body">Estic segur que cap dels dos fa, ni farà, sempre les coses bé. Però també estic segur que sempre intentarem fer el millor per nosaltres dos i que treballarem sempre com un equip.</p>
+        <p class="section-body"><em>T'estimo molt Ari :)</em></p>
         <ul class="tag-list">
           <li>característica 1</li>
           <li>característica 2</li>
           <li>característica 3</li>
         </ul>
       </div>
- 
     </div>
   </section>
- 
+
   <!-- NOSALTRES -->
   <section id="nosaltres" class="section-block section-dark">
     <div class="container">
       <p class="section-label">02 — Nosaltres</p>
       <h2 class="section-title">El que hem viscut.</h2>
       <div class="timeline">
- 
         <div class="timeline-item">
           <div class="timeline-date">Mes 1</div>
-          <div class="timeline-content">
-            <h4>Títol del moment</h4>
-            <p>Descriu aquí un moment clau del primer mes. Pot ser la primera vegada que vau quedar, el primer lloc on vau anar, alguna cosa divertida o especial.</p>
-          </div>
+          <div class="timeline-content"><h4>Títol del moment</h4><p>Descriu aquí un moment clau del primer mes. Pot ser la primera vegada que vau quedar, el primer lloc on vau anar, alguna cosa divertida o especial.</p></div>
         </div>
- 
         <div class="timeline-item">
           <div class="timeline-date">Mes 2</div>
-          <div class="timeline-content">
-            <h4>Títol del moment</h4>
-            <p>Segueix construint la línia del temps. Cada entrada pot ser un record, una aventura, un moment tranquil.</p>
-          </div>
+          <div class="timeline-content"><h4>Títol del moment</h4><p>Segueix construint la línia del temps. Cada entrada pot ser un record, una aventura, un moment tranquil.</p></div>
         </div>
- 
         <div class="timeline-item">
           <div class="timeline-date">Mes 3</div>
-          <div class="timeline-content">
-            <h4>Títol del moment</h4>
-            <p>Un altre record important. Pots afegir tants ítems com vulguis.</p>
-          </div>
+          <div class="timeline-content"><h4>Títol del moment</h4><p>Un altre record important. Pots afegir tants ítems com vulguis.</p></div>
         </div>
- 
         <div class="timeline-item">
           <div class="timeline-date">Mes 4</div>
-          <div class="timeline-content">
-            <h4>Títol del moment</h4>
-            <p>Continua la història. Cada mes té el seu moment.</p>
-          </div>
+          <div class="timeline-content"><h4>Títol del moment</h4><p>Continua la història. Cada mes té el seu moment.</p></div>
         </div>
- 
         <div class="timeline-item">
           <div class="timeline-date">Mes 5</div>
-          <div class="timeline-content">
-            <h4>Títol del moment</h4>
-            <p>Aquí pots posar quelcom que hagi canviat o crescut entre vosaltres.</p>
-          </div>
+          <div class="timeline-content"><h4>Títol del moment</h4><p>Aquí pots posar quelcom que hagi canviat o crescut entre vosaltres.</p></div>
         </div>
- 
         <div class="timeline-item">
           <div class="timeline-date">Mes 6</div>
-          <div class="timeline-content">
-            <h4>Avui</h4>
-            <p>On esteu ara. Quelcom sobre com us sentiu en aquest moment.</p>
-          </div>
+          <div class="timeline-content"><h4>Avui</h4><p>On esteu ara. Quelcom sobre com us sentiu en aquest moment.</p></div>
         </div>
- 
       </div>
     </div>
   </section>
- 
+
   <!-- FRASE -->
   <section id="frase" class="section-block section-quote">
     <div class="container">
       <p class="section-label">03 — Paraules</p>
       <blockquote class="big-quote">
-        <p>
-          "Aquí pots posar una frase que t'agradi, que sigui vostra, o quelcom que sents.
-          Pot ser una cita d'un llibre, d'una cançó, o simplement el que penses tu."
-        </p>
+        <p>"Aquí pots posar una frase que t'agradi, que sigui vostra, o quelcom que sents. Pot ser una cita d'un llibre, d'una cançó, o simplement el que penses tu."</p>
         <footer>— Autor o font, si en té</footer>
       </blockquote>
       <div class="quote-note">
@@ -156,86 +354,158 @@
       </div>
     </div>
   </section>
- 
+
   <!-- CANÇONS -->
   <section id="cancons" class="section-block">
     <div class="container">
-      <p class="section-label">04 — Cançons</p>
-      <h2 class="section-title">La nostra playlist.</h2>
-      <p class="section-intro">Cançons que han sonat en algun moment dels últims 6 mesos.</p>
- 
-      <div class="songs-list mt-4">
- 
-        <div class="song-card">
-          <div class="song-num">01</div>
-          <div class="song-info">
-            <h5>Títol de la cançó</h5>
-            <p>Artista</p>
+
+      <div class="cancons-header">
+        <p class="section-label">04 — Cançons</p>
+        <h2 class="section-title">Les nostres cançons.</h2>
+        <p class="cancons-intro">Les que han sonat en algun moment dels últims 6 mesos.</p>
+      </div>
+
+      <div class="songs-grid">
+
+        <!-- ★ CAN'T HELP FALLING IN LOVE — destacada -->
+        <a class="song-tile song-tile-featured"
+           data-song="elvis"
+           href="https://youtu.be/vGJTaP6anOU?si=E3uvq5n74Mr9Y_VK"
+           target="_blank" rel="noopener noreferrer">
+          <div class="song-bg"></div>
+          <div class="song-shape"></div>
+          <div class="song-featured-badge">la nostra</div>
+          <div class="song-inner">
+            <div class="song-meta">
+              <span class="song-num-badge">01</span>
+              <span class="song-start-badge">des del principi</span>
+            </div>
+            <div class="song-icon-wrap">
+              <div class="song-disc">
+                <div class="song-disc-ring"></div>
+                <div class="song-disc-ring-2"></div>
+                <div class="song-disc-dot"></div>
+                <div class="song-play-circle">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="song-text">
+              <div class="song-title">Can't Help Falling in Love</div>
+              <div class="song-artist">Elvis Presley</div>
+              <div class="song-note-text">La important. La nostra.</div>
+            </div>
           </div>
-          <div class="song-note">Per quin motiu és especial per a vosaltres.</div>
-        </div>
- 
-        <div class="song-card">
-          <div class="song-num">02</div>
-          <div class="song-info">
-            <h5>Títol de la cançó</h5>
-            <p>Artista</p>
+          <div class="song-accent-line"></div>
+        </a>
+
+        <!-- Sailor Song -->
+        <a class="song-tile"
+           data-song="sailor"
+           href="https://youtu.be/1lrFsXkT_rM?si=EWnEje30elHQ-bGy"
+           target="_blank" rel="noopener noreferrer">
+          <div class="song-bg"></div>
+          <div class="song-shape"></div>
+          <div class="song-inner">
+            <div class="song-meta">
+              <span class="song-num-badge">02</span>
+              <span class="song-start-badge">des del principi</span>
+            </div>
+            <div class="song-icon-wrap">
+              <div class="song-disc">
+                <div class="song-disc-ring"></div>
+                <div class="song-disc-ring-2"></div>
+                <div class="song-disc-dot"></div>
+                <div class="song-play-circle">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="song-text">
+              <div class="song-title">Sailor Song</div>
+              <div class="song-artist">Gigi Perez</div>
+              <div class="song-note-text">La que posaves de bon matí.</div>
+            </div>
           </div>
-          <div class="song-note">Una frase curta explicant el perquè.</div>
-        </div>
- 
-        <div class="song-card">
-          <div class="song-num">03</div>
-          <div class="song-info">
-            <h5>Títol de la cançó</h5>
-            <p>Artista</p>
+          <div class="song-accent-line"></div>
+        </a>
+
+        <!-- Viva la Vida -->
+        <a class="song-tile"
+           data-song="viva"
+           href="https://youtu.be/dvgZkm1xWPE?si=xKuZxRVDFPMO23dK"
+           target="_blank" rel="noopener noreferrer">
+          <div class="song-bg"></div>
+          <div class="song-shape"></div>
+          <div class="song-inner">
+            <div class="song-meta">
+              <span class="song-num-badge">03</span>
+              <span class="song-start-badge">1:04</span>
+            </div>
+            <div class="song-icon-wrap">
+              <div class="song-disc">
+                <div class="song-disc-ring"></div>
+                <div class="song-disc-ring-2"></div>
+                <div class="song-disc-dot"></div>
+                <div class="song-play-circle">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="song-text">
+              <div class="song-title">Viva la Vida</div>
+              <div class="song-artist">Coldplay</div>
+              <div class="song-note-text">Quan sona, no pots no cantar.</div>
+            </div>
           </div>
-          <div class="song-note">El context o el moment en que la vau descobrir.</div>
-        </div>
- 
-        <div class="song-card">
-          <div class="song-num">04</div>
-          <div class="song-info">
-            <h5>Títol de la cançó</h5>
-            <p>Artista</p>
+          <div class="song-accent-line"></div>
+        </a>
+
+        <!-- Congratulations -->
+        <a class="song-tile"
+           data-song="mac"
+           href="https://youtu.be/JoFkQ7iAQcw?si=DhsKEfs8MFa2eMLw&t=29"
+           target="_blank" rel="noopener noreferrer">
+          <div class="song-bg"></div>
+          <div class="song-shape"></div>
+          <div class="song-inner">
+            <div class="song-meta">
+              <span class="song-num-badge">04</span>
+              <span class="song-start-badge">0:30</span>
+            </div>
+            <div class="song-icon-wrap">
+              <div class="song-disc">
+                <div class="song-disc-ring"></div>
+                <div class="song-disc-ring-2"></div>
+                <div class="song-disc-dot"></div>
+                <div class="song-play-circle">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="song-text">
+              <div class="song-title">Congratulations</div>
+              <div class="song-artist">Mac Miller</div>
+              <div class="song-note-text">Melancòlica però boniquíssima.</div>
+            </div>
           </div>
-          <div class="song-note">Continua afegint cançons aquí.</div>
-        </div>
- 
-        <div class="song-card">
-          <div class="song-num">05</div>
-          <div class="song-info">
-            <h5>Títol de la cançó</h5>
-            <p>Artista</p>
-          </div>
-          <div class="song-note">Descripció breu del perquè és a la llista.</div>
-        </div>
- 
-        <div class="song-card song-card-link">
-          <div class="song-num">→</div>
-          <div class="song-info">
-            <h5>Spotify / YouTube</h5>
-            <p>Playlist completa</p>
-          </div>
-          <a href="#" class="stretched-link" target="_blank" rel="noopener"></a>
-        </div>
- 
+          <div class="song-accent-line"></div>
+        </a>
+
       </div>
     </div>
   </section>
- 
+
   <!-- FOTOS & VÍDEOS -->
   <section id="fotos" class="section-block section-dark">
     <div class="container">
       <p class="section-label">05 — Fotos &amp; Vídeos</p>
       <h2 class="section-title">Moments en imatges.</h2>
     </div>
- 
     <div class="media-carousel-wrap">
       <div class="carousel-counter">
         <span id="car-cur">1</span> / <span id="car-total">62</span>
       </div>
- 
       <div id="mediaCarousel" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
           <div class="carousel-item active"><div class="carousel-media"><img src="/fotos/1.jpeg" alt="Foto 1" loading="lazy" /></div></div>
@@ -300,7 +570,6 @@
           <div class="carousel-item"><div class="carousel-media"><video src="/fotos/60.mp4" controls preload="none" playsinline></video></div></div>
           <div class="carousel-item"><div class="carousel-media"><video src="/fotos/61.mp4" controls preload="none" playsinline></video></div></div>
         </div>
- 
         <button class="carousel-control-prev" type="button" data-bs-target="#mediaCarousel" data-bs-slide="prev" aria-label="Anterior">
           <span class="car-btn">‹</span>
         </button>
@@ -308,17 +577,15 @@
           <span class="car-btn">›</span>
         </button>
       </div>
- 
       <div class="carousel-dots" id="carouselDots"></div>
     </div>
   </section>
- 
+
   <!-- ETC -->
   <section id="etc" class="section-block">
     <div class="container">
       <p class="section-label">06 — I més</p>
       <h2 class="section-title">Coses que no caben en cap categoria.</h2>
- 
       <div class="etc-stack">
         <div class="etc-block">
           <h4>Les nostres coses</h4>
@@ -330,7 +597,6 @@
             <li>Una cosa que hàgiu après de l'altre</li>
           </ul>
         </div>
- 
         <div class="etc-block">
           <h4>Coses pendents</h4>
           <ul class="etc-list">
@@ -342,25 +608,20 @@
           </ul>
         </div>
       </div>
- 
       <div class="final-msg">
-        <p>
-          Aquí pots escriure un missatge final per a l'Ariadna. Directe, sense floritures.
-          Digues el que de veritat sents — sense intentar sonar poètic.
-          Sovint el més simple és el que arriba més.
-        </p>
+        <p>Aquí pots escriure un missatge final per a l'Ariadna. Directe, sense floritures. Digues el que de veritat sents — sense intentar sonar poètic. Sovint el més simple és el que arriba més.</p>
         <span class="final-sig">— El teu nom</span>
       </div>
- 
     </div>
   </section>
- 
+
   <!-- FOOTER -->
   <footer>
     <p>Fet a mà · 6 mesos · <span id="year"></span></p>
   </footer>
- 
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
