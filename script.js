@@ -104,10 +104,20 @@ if (carEl) {
   }, { passive: true });
 }
 
+// ── Stats cards expandibles ───────────────────────
+document.querySelectorAll('.stat-card[data-expandable="true"]').forEach(card => {
+  card.addEventListener('click', () => {
+    const isOpen = card.classList.contains('open');
+    // Tanca tots i obre el clicat
+    document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+  });
+});
+
 // ── Reveal on scroll ─────────────────────────────
 const revealEls = document.querySelectorAll(
   '.section-label, .section-title, .section-body, .section-intro, ' +
-  '.timeline-item, .song-card, .etc-block, .final-msg, ' +
+  '.stat-card, .song-card, .etc-block, .final-msg, ' +
   '.big-quote, .quote-note, .tag-list, .tu-photo-wrap'
 );
 
