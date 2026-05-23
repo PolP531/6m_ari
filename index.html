@@ -21,12 +21,29 @@
       font-size: 1rem;
       margin-top: .4rem;
     }
+    .cancons-note-wrap {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .cancons-note {
+      display: inline-block;
+      padding: 1rem 1.4rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.92);
+      font-size: .98rem;
+      line-height: 1.5;
+      max-width: 36rem;
+      box-shadow: 0 14px 40px rgba(0,0,0,.14);
+      border: 1px solid rgba(255,255,255,.08);
+    }
 
     .songs-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
+
     @media (max-width: 640px) { .songs-grid { grid-template-columns: 1fr; } }
 
     .song-tile-featured { grid-column: 1 / -1; }
@@ -299,9 +316,9 @@
         <p class="section-body">Estic segur que cap dels dos fa, ni farà, sempre les coses bé. Però també estic segur que sempre intentarem fer el millor per nosaltres dos i que treballarem sempre com un equip.</p>
         <p class="section-body"><em>T'estimo molt Ari :)</em></p>
         <ul class="tag-list">
-          <li>característica 1</li>
-          <li>característica 2</li>
-          <li>característica 3</li>
+          <li>Intel·ligent</li>
+          <li>Amable</li>
+          <li>Divertida</li>
         </ul>
       </div>
     </div>
@@ -358,7 +375,7 @@
         <div class="stat-card stat-card-plain">
           <div class="stat-main">
             <span class="stat-num">594</span>
-            <span class="stat-label">XXXXXXXX</span>    
+            <span class="stat-label">Cops que ho hem fet</span>    
             <!-- Cops que ho hem fet -->
           </div>
           <p class="stat-sub">ehemehem</p>
@@ -398,12 +415,9 @@
     <div class="container">
       <p class="section-label">03 — Paraules</p>
       <blockquote class="big-quote">
-        <p>"Aquí pots posar una frase que t'agradi, que sigui vostra, o quelcom que sents. Pot ser una cita d'un llibre, d'una cançó, o simplement el que penses tu."</p>
-        <footer>— Autor o font, si en té</footer>
+        <p>Ets la persona mes important de la meva vida, els dies que no estic amb tu, noto que son dies perduts, vull aconseguir coses a la vida nomes pq tu poguis viure millor i que estiguis orgullosa. Estic profundament enamorat i orgullós de tu, i se que pots fer tot el que et proposis. M'encanta cada part de tu, com ets, la teva personalitat, el teu riure, el teu somriure, el teu cabell, els teus ulls, el teu cos, la teva forma de pensar, el teu cul, els teus llavis, tu.</p>
+        <footer>— Pol</footer>
       </blockquote>
-      <div class="quote-note">
-        <p>I si no és d'un autor famós, millor encara. Les paraules pròpies pesen més.</p>
-      </div>
     </div>
   </section>
 
@@ -430,7 +444,7 @@
           <div class="song-inner">
             <div class="song-meta">
               <span class="song-num-badge">01</span>
-              <span class="song-start-badge">des del principi</span>
+              <span class="song-start-badge">0:00</span>
             </div>
             <div class="song-icon-wrap">
               <div class="song-disc">
@@ -445,7 +459,7 @@
             <div class="song-text">
               <div class="song-title">Can't Help Falling in Love</div>
               <div class="song-artist">Elvis Presley</div>
-              <div class="song-note-text">La important. La nostra.</div>
+              <div class="song-note-text">La teva preferida</div>
             </div>
           </div>
           <div class="song-accent-line"></div>
@@ -461,7 +475,7 @@
           <div class="song-inner">
             <div class="song-meta">
               <span class="song-num-badge">02</span>
-              <span class="song-start-badge">des del principi</span>
+              <span class="song-start-badge">0:00</span>
             </div>
             <div class="song-icon-wrap">
               <div class="song-disc">
@@ -476,7 +490,7 @@
             <div class="song-text">
               <div class="song-title">Sailor Song</div>
               <div class="song-artist">Gigi Perez</div>
-              <div class="song-note-text">La que posaves de bon matí.</div>
+              <div class="song-note-text">La que vaig posar quan em vas deixar en visto..</div>
             </div>
           </div>
           <div class="song-accent-line"></div>
@@ -507,7 +521,7 @@
             <div class="song-text">
               <div class="song-title">Viva la Vida</div>
               <div class="song-artist">Coldplay</div>
-              <div class="song-note-text">Quan sona, no pots no cantar.</div>
+              <div class="song-note-text">Coldplay</div>
             </div>
           </div>
           <div class="song-accent-line"></div>
@@ -538,19 +552,14 @@
             <div class="song-text">
               <div class="song-title">Congratulations</div>
               <div class="song-artist">Mac Miller</div>
-              <div class="song-note-text">Melancòlica però boniquíssima.</div>
+              <div class="song-note-text">La nostre</div>
             </div>
           </div>
           <div class="song-accent-line"></div>
         </a>
-        <div class="song-text">
-              <div class="song-title">PODRIA ESTAR POSANT MOLTES MES CANÇONS, BLA BLA</div>
-              <div class="song-artist">Mac Miller</div>
-              <div class="song-note-text">Melancòlica però boniquíssima.</div>
-            </div>
-          </div>
-          <div class="song-accent-line"></div>
-        </a>
+      </div>
+      <div class="cancons-note-wrap">
+        <p class="cancons-note">Podria estar posant moltes més cançons molt boniques, però crec que aquestes 4 son les millors</p>
       </div>
     </div>
   </section>
@@ -645,33 +654,36 @@
     <div class="container">
       <p class="section-label">06 — I més</p>
       <h2 class="section-title">Coses que no caben en cap categoria.</h2>
-      <div class="etc-stack">
-        <div class="etc-block">
-          <h4>Les nostres coses</h4>
-          <ul class="etc-list">
-            <li>La vostra sèrie o pel·lícula favorita junts</li>
-            <li>El vostre lloc preferit</li>
-            <li>Quelcom estúpid que us fa riure sempre</li>
-            <li>Un plat, menjar o lloc on sempre aneu</li>
-            <li>Una cosa que hàgiu après de l'altre</li>
-          </ul>
-        </div>
-        <div class="etc-block">
-          <h4>Coses pendents</h4>
-          <ul class="etc-list">
-            <li>Un lloc on voleu anar</li>
-            <li>Una cosa que encara heu de fer junts</li>
-            <li>Un projecte compartit</li>
-            <li>Un concert o event pendent</li>
-            <li>Qualsevol altra cosa que tingueu a la llista</li>
-          </ul>
-        </div>
-      </div>
       <div class="final-msg">
-        <p>Aquí pots escriure un missatge final per a l'Ariadna. Directe, sense floritures. Digues el que de veritat sents — sense intentar sonar poètic. Sovint el més simple és el que arriba més.</p>
-        <span class="final-sig">— El teu nom</span>
+        <p>T’estimo moltissim ari, ets la millor persona que he conegut en moltissim temps, ets intel•ligent, guapa, graciosa, amb sentit comú, saber estar, resilient, disciplinada, aguantes tot el que et tirin a sobre, treballadora, amb un cor gegant, etc. No vull que pensis mai que no ets res d’aixo o que no mereixes la pena en qualsevol aspecte o en qualsevol moment baix🫶</p>
+        <span class="final-sig">— Pol</span>
       </div>
     </div>
+    <div class="container">
+      <div class="final-msg">
+        <p>Pol t'estimo tant q em dona por</p>
+        <span class="final-sig">— Ari</span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="final-msg">
+        <p>Crec que estic enamorat de tu / No em cansaria mai de tu / Ets un angel :)</p>
+        <span class="final-sig">— Pol</span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="final-msg">
+        <p>de veritat q espero q lo nostre mai acabi, ets el millor q m’ha passat aquest any i en molt de temps 💗</p>
+        <span class="final-sig">— Ari</span>
+      </div>
+    </div>
+    <div class="container">
+      <div class="final-msg">
+        <p>Ari, t’estimo molt, tinc l’impuls de voler-te protegir sempre, estar amb tu, cuidar-te, que no et passi res dolent, poder estar amb tu en totes les situacions i fer-les mes facils</p>
+        <span class="final-sig">— Pol</span>
+      </div>
+    </div>
+    
   </section>
 
   <!-- FOOTER -->
